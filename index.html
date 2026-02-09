@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramen Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f8f5f0;
+            color: #2d2d2d;
+        }
+
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 0.5rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: #c41e3a;
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: #f0f0f0;
+        }
+
+        /* Page Container */
+        .page {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem;
+            background: #c41e3a;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(196, 30, 58, 0.3);
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #a01830;
+            transform: translateY(-2px);
+        }
+
+        /* Shop Page */
+        .shop-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            min-height: 100vh;
+        }
+
+        .shop-image {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            background: linear-gradient(135deg, #c41e3a, #d4af37);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .shop-info {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .shop-name {
+            font-size: 3.5rem;
+            color: #c41e3a;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .shop-location {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .ramen-types {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .ramen-types h2 {
+            font-size: 1.8rem;
+            color: #c41e3a;
+            margin-bottom: 1.5rem;
+        }
+
+        .ramen-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .ramen-tag {
+            background: #f8f5f0;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            border: 2px solid #d4af37;
+            color: #2d2d2d;
+        }
+
+        .business-hours {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .business-hours h2 {
+            font-size: 1.8rem;
+            color: #c41e3a;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .hours-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .hours-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem;
+            background: #f8f5f0;
+            border-radius: 8px;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .hours-item .day {
+            font-weight: bold;
+            color: #2d2d2d;
+            min-width: 120px;
+        }
+
+        .hours-item .time {
+            color: #c41e3a;
+            font-weight: bold;
+            flex: 1;
+            text-align: center;
+        }
+
+        .hours-item .last-order {
+            color: #666;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        /* Menu Page */
+        .menu-page {
+            padding: 4rem 2rem;
+            padding-bottom: 100px;
+        }
+
+        .menu-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .menu-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .menu-header h1 {
+            font-size: 3rem;
+            color: #c41e3a;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .menu-section h2 {
+            font-size: 2rem;
+            color: #c41e3a;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #d4af37;
+        }
+
+        .menu-placeholder {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+
+        .menu-item {
+            background: #f8f5f0;
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid #e0e0e0;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(196, 30, 58, 0.2);
+            border-color: #d4af37;
+        }
+
+        .menu-image {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .menu-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .menu-name {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #2d2d2d;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-price {
+            font-size: 1.2rem;
+            color: #c41e3a;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .shop-name {
+                font-size: 2.5rem;
+            }
+
+            .shop-image {
+                height: 300px;
+                font-size: 4rem;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                bottom: 20px;
+            }
+
+            .menu-header h1 {
+                font-size: 2rem;
+            }
+
+            .language-toggle {
+                top: 10px;
+                right: 10px;
+            }
+
+            .hours-item {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+
+            .hours-item .time {
+                text-align: left;
+            }
+
+            .hours-item .day {
+                min-width: auto;
+            }
+
+            .menu-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 1rem;
+            }
+
+            .menu-item {
+                padding: 1rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" onclick="setLanguage('ja')">JA</button>
+    </div>
+
+    <!-- Shop Page -->
+    <div id="shopPage" class="page active">
+        <div class="shop-page">
+            <div class="menu-image">
+                <img src="https://tblg.k-img.com/restaurant/images/Rvw/162579/640x640_rect_162579198.jpg?w=400&h=300&fit=crop" alt="Spicy Ramen">
+            </div>
+            <div class="shop-info">
+                <h1 class="shop-name" data-en="Hiro-chan Ramen" data-ja="ひろちゃんラーメン">Hiro-chan Ramen</h1>
+                
+                <div class="shop-location">
+                    <span>📍</span>
+                    <span data-en="1F, Miyata Building, 1-39-1 Nishi-Ikebukuro, Toshima-ku, Tokyo 171-0021, Japan" data-ja="〒171-0021 東京都豊島区西池袋１丁目３９−１ 宮田ビル 1F">1F, Miyata Building, 1-39-1 Nishi-Ikebukuro, Toshima-ku, Tokyo 171-0021, Japan</span>
+                </div>
+                
+                <!-- <div class="ramen-types">
+                    <h2 data-en="Our Specialty Ramen" data-ja="当店の特製ラーメン">Our Specialty Ramen</h2>
+                    <div class="ramen-list">
+                        <span class="ramen-tag" data-en="Shoyu" data-ja="醤油">Shoyu</span>
+                        <span class="ramen-tag" data-en="Spicy Shoyu" data-ja="辛醤油">Spicy Miso</span>
+                    </div>
+                </div> -->
+
+                <div class="business-hours">
+                    <h2 data-en="Business Hours" data-ja="営業時間">Business Hours</h2>
+                    <div class="hours-list">
+                        <div class="hours-item">
+                            <span class="day" data-en="Mon, Tue, Wed, Thu" data-ja="月・火・水・木">Mon, Tue, Wed, Thu</span>
+                            <span class="time">11:00 - 05:00</span>
+                            <span class="last-order" data-en="L.O. 04:30" data-ja="L.O. 04:30">L.O. 04:30</span>
+                        </div>
+                        <div class="hours-item">
+                            <span class="day" data-en="Fri" data-ja="金">Fri</span>
+                            <span class="time">11:00 - 00:00</span>
+                        </div>
+                        <div class="hours-item">
+                            <span class="day" data-en="Sat" data-ja="土">Sat</span>
+                            <span class="time" data-en="Open 24 hours" data-ja="24時間営業">Open 24 hours</span>
+                        </div>
+                        <div class="hours-item">
+                            <span class="day" data-en="Sun" data-ja="日">Sun</span>
+                            <span class="time">00:00 - 23:00</span>
+                            <span class="last-order" data-en="L.O. 22:30" data-ja="L.O. 22:30">L.O. 22:30</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Page -->
+    <div id="menuPage" class="page">
+        <div class="menu-page">
+            <div class="menu-container">
+                <div class="menu-header">
+                    <h1 data-en="Menu" data-ja="メニュー">Menu</h1>
+                </div>
+
+                <div class="menu-section">
+                    <h2 data-en="Ramen" data-ja="ラーメン">Ramen</h2>
+                    <div class="menu-grid">
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/162579/640x640_rect_162579182.jpg?w=400&h=300&fit=crop" alt="Chuka Soba">
+                            </div>
+                            <div class="menu-name" data-en="Chuka Soba" data-ja="中華そば">Chuka Soba</div>
+                            <div class="menu-price">¥900</div>
+                        </div>
+                        
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/332290/640x640_rect_f1c5077bba6ca0ddd61bb0e577f0104e.jpg?w=400&h=300&fit=crop" alt="Chashu-men">
+                            </div>
+                            <div class="menu-name" data-en="Chashu-men" data-ja="チャーシュー麺">Chashu-men</div>
+                            <div class="menu-price">¥1,200</div>
+                        </div>
+                        
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/342591/640x640_rect_54908de5b333851b8fa4bf71a76dbd93.jpg?w=400&h=300&fit=crop" alt="Spicy Ramen">
+                            </div>
+                            <div class="menu-name" data-en="Spicy Chuka Soba" data-ja="辛中華そば">Spicy Chuka Soba</div>
+                            <div class="menu-price">¥1,000</div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/335964/640x640_rect_db02354fc82580fe2ceff29800d746d9.jpg?w=400&h=300&fit=crop" alt="Mori-Chuka">
+                            </div>
+                            <div class="menu-name" data-en="Mori-Chuka (Regular - 2 portions)" data-ja="もり中華 並盛り">Mori-Chuka (Regular)</div>
+                            <div class="menu-price">¥1,000</div>
+                        </div>
+                        
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/195537/640x640_rect_1172a56f4b2db3924cac552dc9f15c5a.jpg?w=400&h=300&fit=crop" alt="Mori-Chashu">
+                            </div>
+                            <div class="menu-name" data-en="Mori-Chashu (Regular - 2 portions)" data-ja="もりチャーシュー 並盛り">Mori-Chashu (Regular)</div>
+                            <div class="menu-price">¥1,300</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-section">
+                    <h2 data-en="Toppings & Sides" data-ja="トッピング＆サイド">Toppings & Sides</h2>
+                    <div class="menu-grid">
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/340702/640x640_rect_906cb018fe27b7eaa012676b25505e3c.jpg?w=400&h=300&fit=crop" alt="Large Noodle Portion">
+                            </div>
+                            <div class="menu-name" data-en="Noodle Large Portion (Oomori)" data-ja="麺大盛り">Extra Noodles</div>
+                            <div class="menu-price">¥100</div>
+                        </div>
+                        
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/149340/640x640_rect_149340225.jpg?w=400&h=300&fit=crop" alt="Hard-boiled Egg">
+                            </div>
+                            <div class="menu-name" data-en="Hard-boiled Egg" data-ja="固ゆで卵">Hard-boiled Egg</div>
+                            <div class="menu-price">¥100</div>
+                        </div>
+                        
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://images.unsplash.com/photo-1588710920403-d6529683e35d?w=400&h=300&fit=crop" alt="Green Onions">
+                            </div>
+                            <div class="menu-name" data-en="Green Onions (Negi)" data-ja="ネギ">Green Onions</div>
+                            <div class="menu-price">¥100</div>
+                        </div>
+                        
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/164941/640x640_rect_043c3ec1580f874c668560bc548d28ea.jpg?w=400&h=300&fit=crop" alt="Seaweed">
+                            </div>
+                            <div class="menu-name" data-en="Seaweed (Nori)" data-ja="海苔">Seaweed</div>
+                            <div class="menu-price">¥100</div>
+                        </div>
+                        
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/290266/640x640_rect_f08d6f2057b044731f63053634fdb34e.jpg?w=400&h=300&fit=crop" alt="Boiled Vegetables">
+                            </div>
+                            <div class="menu-name" data-en="Boiled Vegetables" data-ja="ゆで野菜">Boiled Vegetables</div>
+                            <div class="menu-price">¥100</div>
+                        </div>
+                        
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/330498/640x640_rect_f0ddc8fdee65009eaea947fbbd37a84b.jpg?w=400&h=300&fit=crop" alt="Menma">
+                            </div>
+                            <div class="menu-name" data-en="Bamboo Shoots (Menma)" data-ja="メンマ">Bamboo Shoots</div>
+                            <div class="menu-price">¥200</div>
+                        </div>
+                        
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/328834/640x640_rect_87e72068f37aae8a58f4febe3e1aac16.jpg?w=400&h=300&fit=crop" alt="Raw Egg">
+                            </div>
+                            <div class="menu-name" data-en="Raw Egg" data-ja="生卵">Raw Egg</div>
+                            <div class="menu-price">¥50</div>
+                        </div>
+                        
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/328834/640x640_rect_ce90b1e59dab2ca070484bb63375969a.jpg?w=400&h=300&fit=crop" alt="White Rice">
+                            </div>
+                            <div class="menu-name" data-en="White Rice" data-ja="白めし">White Rice</div>
+                            <div class="menu-price">¥150</div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+
+                <div class="menu-section">
+                    <h2 data-en="Drinks" data-ja="ドリンク">Drinks</h2>
+                    <div class="menu-grid">
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/317530/640x640_rect_efb9757b257cdc2dc2d15b13d14ad1c0.jpg?w=400&h=300&fit=crop" alt="Sapporo Red Star">
+                            </div>
+                            <div class="menu-name" data-en="Sapporo Red Star (Bottle)" data-ja="赤星ビール">Sapporo Red Star</div>
+                            <div class="menu-price">¥600</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="goToShop()" style="display: none;">
+            <span data-en="← Shop" data-ja="← ショップ">← Shop</span>
+        </button>
+        <button class="nav-btn" id="nextBtn" onclick="goToMenu()">
+            <span data-en="Menu →" data-ja="メニュー →">Menu →</span>
+        </button>
+    </div>
+
+    <script>
+        let currentLang = 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            // Update button states
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update all text elements
+            document.querySelectorAll('[data-en]').forEach(element => {
+                const text = element.getAttribute('data-' + lang);
+                element.textContent = text;
+            });
+        }
+
+        function goToShop() {
+            document.getElementById('shopPage').classList.add('active');
+            document.getElementById('menuPage').classList.remove('active');
+            document.getElementById('prevBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        function goToMenu() {
+            document.getElementById('shopPage').classList.remove('active');
+            document.getElementById('menuPage').classList.add('active');
+            document.getElementById('prevBtn').style.display = 'block';
+            document.getElementById('nextBtn').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
