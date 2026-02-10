@@ -17,6 +17,28 @@
             color: #2d2d2d;
         }
 
+        /* Company Logo */
+        .company-logo {
+            position: fixed;
+            top: 50px;
+            left: 50px;
+            z-index: 1000;
+            background: white;
+            padding: 0.3rem;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 75px;
+            height: 75px;
+            overflow: hidden;
+        }
+
+        .company-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
         /* Language Toggle */
         .language-toggle {
             position: fixed;
@@ -277,6 +299,15 @@
             text-align: center;
             transition: transform 0.3s, box-shadow 0.3s;
             border: 2px solid #e0e0e0;
+            position: relative;
+        }
+
+        .menu-star {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            z-index: 10;
         }
 
         .menu-item:hover {
@@ -315,8 +346,171 @@
             font-weight: bold;
         }
 
+        /* Modal Popup */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            background: none;
+            border: none;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: #c41e3a;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 250px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: #c41e3a;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .portion-options {
+            margin-bottom: 2rem;
+        }
+
+        .portion-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f5f0;
+            border-radius: 10px;
+            margin-bottom: 0.8rem;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .portion-option:hover {
+            border-color: #d4af37;
+            transform: translateX(5px);
+        }
+
+        .portion-name {
+            font-weight: bold;
+            color: #2d2d2d;
+        }
+
+        .portion-price {
+            font-size: 1.3rem;
+            color: #c41e3a;
+            font-weight: bold;
+        }
+
+        .spicy-level {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .spicy-level h3 {
+            font-size: 1.3rem;
+            color: #c41e3a;
+            margin-bottom: 1rem;
+        }
+
+        .spicy-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .spicy-btn {
+            padding: 0.7rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .spicy-btn:hover {
+            border-color: #FF4500;
+            background: #FFF5F0;
+        }
+
+        .spicy-btn.selected {
+            background: #FF4500;
+            color: white;
+            border-color: #FF4500;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
+            /* Mobile 19.5:9 aspect ratio optimization */
+            body {
+                max-width: 100vw;
+                overflow-x: hidden;
+            }
+
+            .company-logo {
+                top: 10px;
+                left: 10px;
+                width: 50px;
+                height: 50px;
+            }
+
             .shop-name {
                 font-size: 2.5rem;
             }
@@ -354,18 +548,65 @@
                 min-width: auto;
             }
 
+            /* Force 2 columns for all menu items on mobile */
             .menu-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-                gap: 1rem;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.8rem;
             }
 
             .menu-item {
-                padding: 1rem 0.5rem;
+                padding: 0.8rem 0.5rem;
+            }
+
+            .menu-image {
+                height: auto;
+                aspect-ratio: 1 / 1;
+            }
+
+            .menu-name {
+                font-size: 0.85rem;
+            }
+
+            .menu-price {
+                font-size: 1rem;
+            }
+
+            /* Modal adjustments for mobile */
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+                max-height: 85vh;
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
+            }
+
+            .modal-image {
+                height: 200px;
+            }
+
+            .portion-option {
+                padding: 0.8rem;
+            }
+
+            .spicy-buttons {
+                gap: 0.4rem;
+            }
+
+            .spicy-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Company Logo -->
+    <div class="company-logo">
+        <img src="https://chan-noren-kumiai.com/wp-content/themes/underscores/images/shopIcon.jpg" alt="Hiro-chan Ramen">
+    </div>
+
     <!-- Language Toggle -->
     <div class="language-toggle">
         <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
@@ -432,42 +673,53 @@
                 <div class="menu-section">
                     <h2 data-en="Ramen" data-ja="ラーメン">Ramen</h2>
                     <div class="menu-grid">
-                        <div class="menu-item">
+                        <div class="menu-item" onclick="openRamenModal('chuka-soba')" style="cursor: pointer;">
                             <div class="menu-image">
                                 <img src="https://tblg.k-img.com/restaurant/images/Rvw/162579/640x640_rect_162579182.jpg?w=400&h=300&fit=crop" alt="Chuka Soba">
                             </div>
-                            <div class="menu-name" data-en="Chuka Soba" data-ja="中華そば">Chuka Soba</div>
+                            <div class="menu-name" data-en="Chūka Soba (Classic Ramen)" data-ja="中華そば">Chūka Soba</div>
                             <div class="menu-price">¥900</div>
                         </div>
                         
-                        <div class="menu-item">
+                        <div class="menu-item" onclick="openRamenModal('chashu-men')" style="cursor: pointer;">
                             <div class="menu-image">
                                 <img src="https://tblg.k-img.com/restaurant/images/Rvw/332290/640x640_rect_f1c5077bba6ca0ddd61bb0e577f0104e.jpg?w=400&h=300&fit=crop" alt="Chashu-men">
                             </div>
-                            <div class="menu-name" data-en="Chashu-men" data-ja="チャーシュー麺">Chashu-men</div>
+                            <div class="menu-name" data-en="Chashu-men (Extra Pork)" data-ja="チャーシュー麺">Chashu-men</div>
                             <div class="menu-price">¥1,200</div>
                         </div>
                         
-                        <div class="menu-item">
+                        <div class="menu-item" onclick="openRamenModal('spicy-chuka')" style="cursor: pointer;">
                             <div class="menu-image">
-                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/342591/640x640_rect_54908de5b333851b8fa4bf71a76dbd93.jpg?w=400&h=300&fit=crop" alt="Spicy Ramen">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/342591/640x640_rect_54908de5b333851b8fa4bf71a76dbd93.jpg?w=400&h=300&fit=crop" alt="Spicy Chuka Soba">
                             </div>
-                            <div class="menu-name" data-en="Spicy Chuka Soba" data-ja="辛中華そば">Spicy Chuka Soba</div>
+                            <div class="menu-name" data-en="Spicy Chūka Soba (Levels 1-5)" data-ja="辛中華そば">Spicy Chūka Soba</div>
                             <div class="menu-price">¥1,000</div>
                         </div>
-                        <div class="menu-item">
+
+                        <div class="menu-item" onclick="openRamenModal('spicy-chashu')" style="cursor: pointer;">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/332290/640x640_rect_f1c5077bba6ca0ddd61bb0e577f0104e.jpg?w=400&h=300&fit=crop" alt="Spicy Chashu-men">
+                            </div>
+                            <div class="menu-name" data-en="Spicy Chashu-men (Levels 1-5)" data-ja="辛チャーシュー麺">Spicy Chashu-men</div>
+                            <div class="menu-price">¥1,300</div>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openRamenModal('mori-chuka')" style="cursor: pointer;">
                             <div class="menu-image">
                                 <img src="https://tblg.k-img.com/restaurant/images/Rvw/335964/640x640_rect_db02354fc82580fe2ceff29800d746d9.jpg?w=400&h=300&fit=crop" alt="Mori-Chuka">
                             </div>
-                            <div class="menu-name" data-en="Mori-Chuka (Regular - 2 portions)" data-ja="もり中華 並盛り">Mori-Chuka (Regular)</div>
+                            <div class="menu-star">⭐</div>
+                            <div class="menu-name" data-en="Mori-Chūka (Dipping Noodles)" data-ja="もり中華 (つけ麺)">Mori-Chūka</div>
                             <div class="menu-price">¥1,000</div>
                         </div>
                         
-                        <div class="menu-item">
+                        <div class="menu-item" onclick="openRamenModal('mori-chashu')" style="cursor: pointer;">
                             <div class="menu-image">
                                 <img src="https://tblg.k-img.com/restaurant/images/Rvw/195537/640x640_rect_1172a56f4b2db3924cac552dc9f15c5a.jpg?w=400&h=300&fit=crop" alt="Mori-Chashu">
                             </div>
-                            <div class="menu-name" data-en="Mori-Chashu (Regular - 2 portions)" data-ja="もりチャーシュー 並盛り">Mori-Chashu (Regular)</div>
+                            <div class="menu-star">⭐</div>
+                            <div class="menu-name" data-en="Mori-Chashu (Dipping Noodles)" data-ja="もりチャーシュー (つけ麺)">Mori-Chashu</div>
                             <div class="menu-price">¥1,300</div>
                         </div>
                     </div>
@@ -518,7 +770,7 @@
                         
                         <div class="menu-item">
                             <div class="menu-image">
-                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/330498/640x640_rect_f0ddc8fdee65009eaea947fbbd37a84b.jpg?w=400&h=300&fit=crop" alt="Menma">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/225730/640x640_rect_94fc4669e561b4286aefd7d6af8d5207.jpg?w=400&h=300&fit=crop" alt="Menma">
                             </div>
                             <div class="menu-name" data-en="Bamboo Shoots (Menma)" data-ja="メンマ">Bamboo Shoots</div>
                             <div class="menu-price">¥200</div>
@@ -539,7 +791,13 @@
                             <div class="menu-name" data-en="White Rice" data-ja="白めし">White Rice</div>
                             <div class="menu-price">¥150</div>
                         </div>
-                        
+                        <div class="menu-item">
+                            <div class="menu-image">
+                                <img src="https://tblg.k-img.com/restaurant/images/Rvw/168183/640x640_rect_170068cc07a0c0a67083b65f5ec96ec8.jpg?w=400&h=300&fit=crop" alt="Freshly Cut Chashu">
+                            </div>
+                            <div class="menu-name" data-en="Freshly Cut Chashu (100g)" data-ja="切りたてチャーシュー">Freshly Cut Chashu</div>
+                            <div class="menu-price">¥300</div>
+                        </div>
                         
                     </div>
                 </div>
@@ -560,6 +818,26 @@
         </div>
     </div>
 
+    <!-- Modal Popup -->
+    <div id="ramenModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-image" id="modalImage"></div>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <div class="portion-options" id="portionOptions"></div>
+            <div class="spicy-level" id="spicyLevel" style="display: none;">
+                <h3 data-en="Spicy Level" data-ja="辛さレベル">Spicy Level</h3>
+                <div class="spicy-buttons">
+                    <button class="spicy-btn" onclick="selectSpicy(1)">Level 1 🌶️</button>
+                    <button class="spicy-btn" onclick="selectSpicy(2)">Level 2 🌶️🌶️</button>
+                    <button class="spicy-btn" onclick="selectSpicy(3)">Level 3 🌶️🌶️🌶️</button>
+                    <button class="spicy-btn" onclick="selectSpicy(4)">Level 4 🌶️🌶️🌶️🌶️</button>
+                    <button class="spicy-btn" onclick="selectSpicy(5)">Level 5 🌶️🌶️🌶️🌶️🌶️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation Buttons -->
     <div class="nav-buttons">
         <button class="nav-btn" id="prevBtn" onclick="goToShop()" style="display: none;">
@@ -572,6 +850,128 @@
 
     <script>
         let currentLang = 'en';
+
+        // Ramen data with portions and prices
+        const ramenData = {
+            'chuka-soba': {
+                name: { en: 'Chūka Soba (Classic Ramen)', ja: '中華そば' },
+                image: 'https://tblg.k-img.com/restaurant/images/Rvw/162579/640x640_rect_162579182.jpg',
+                portions: [
+                    { name: { en: 'Regular', ja: '並盛り' }, price: 900 },
+                    { name: { en: 'Large', ja: '大盛り' }, price: 1000 }
+                ],
+                spicy: false
+            },
+            'chashu-men': {
+                name: { en: 'Chashu-men (Ramen with Extra Pork)', ja: 'チャーシュー麺' },
+                image: 'https://tblg.k-img.com/restaurant/images/Rvw/332290/640x640_rect_f1c5077bba6ca0ddd61bb0e577f0104e.jpg',
+                portions: [
+                    { name: { en: 'Regular', ja: '並盛り' }, price: 1200 },
+                    { name: { en: 'Large', ja: '大盛り' }, price: 1300 }
+                ],
+                spicy: false
+            },
+            'spicy-chuka': {
+                name: { en: 'Spicy Chūka Soba (Levels 1-5)', ja: '辛中華そば' },
+                image: 'https://tblg.k-img.com/restaurant/images/Rvw/342591/640x640_rect_54908de5b333851b8fa4bf71a76dbd93.jpg',
+                portions: [
+                    { name: { en: 'Regular', ja: '並盛り' }, price: 1000 },
+                    { name: { en: 'Large', ja: '大盛り' }, price: 1100 }
+                ],
+                spicy: true
+            },
+            'spicy-chashu': {
+                name: { en: 'Spicy Chashu-men (Levels 1-5)', ja: '辛チャーシュー麺' },
+                image: 'https://tblg.k-img.com/restaurant/images/Rvw/332290/640x640_rect_f1c5077bba6ca0ddd61bb0e577f0104e.jpg',
+                portions: [
+                    { name: { en: 'Regular', ja: '並盛り' }, price: 1300 },
+                    { name: { en: 'Large', ja: '大盛り' }, price: 1400 }
+                ],
+                spicy: true
+            },
+            'mori-chuka': {
+                name: { en: 'Mori-Chūka ⭐ (Dipping Noodles)', ja: 'もり中華 ⭐ (つけ麺)' },
+                image: 'https://tblg.k-img.com/restaurant/images/Rvw/335964/640x640_rect_db02354fc82580fe2ceff29800d746d9.jpg',
+                portions: [
+                    { name: { en: 'Small (1 portion of noodles)', ja: '小盛り (1玉)' }, price: 1000 },
+                    { name: { en: 'Regular (2 portions of noodles)', ja: '並盛り (2玉)' }, price: 1000 },
+                    { name: { en: 'Large (3 portions of noodles)', ja: '大盛り (3玉)' }, price: 1100 }
+                ],
+                spicy: false
+            },
+            'mori-chashu': {
+                name: { en: 'Mori-Chashu ⭐ (Dipping Noodles + Extra Pork)', ja: 'もりチャーシュー ⭐ (つけ麺)' },
+                image: 'https://tblg.k-img.com/restaurant/images/Rvw/195537/640x640_rect_1172a56f4b2db3924cac552dc9f15c5a.jpg',
+                portions: [
+                    { name: { en: 'Small (1 portion + extra pork)', ja: '小盛り (1玉)' }, price: 1300 },
+                    { name: { en: 'Regular (2 portions + extra pork)', ja: '並盛り (2玉)' }, price: 1300 },
+                    { name: { en: 'Large (3 portions + extra pork)', ja: '大盛り (3玉)' }, price: 1400 }
+                ],
+                spicy: false
+            }
+        };
+
+        function openRamenModal(ramenId) {
+            const ramen = ramenData[ramenId];
+            const modal = document.getElementById('ramenModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const portionOptions = document.getElementById('portionOptions');
+            const spicyLevel = document.getElementById('spicyLevel');
+
+            // Set image
+            modalImage.innerHTML = `<img src="${ramen.image}" alt="${ramen.name[currentLang]}">`;
+            
+            // Set title
+            modalTitle.textContent = ramen.name[currentLang];
+
+            // Set portions
+            let portionsHTML = '';
+            ramen.portions.forEach(portion => {
+                portionsHTML += `
+                    <div class="portion-option">
+                        <span class="portion-name">${portion.name[currentLang]}</span>
+                        <span class="portion-price">¥${portion.price}</span>
+                    </div>
+                `;
+            });
+            portionOptions.innerHTML = portionsHTML;
+
+            // Show/hide spicy level
+            if (ramen.spicy) {
+                spicyLevel.style.display = 'block';
+            } else {
+                spicyLevel.style.display = 'none';
+            }
+
+            // Show modal
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('ramenModal');
+            modal.classList.remove('active');
+            
+            // Reset spicy selection
+            document.querySelectorAll('.spicy-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+        }
+
+        function selectSpicy(level) {
+            document.querySelectorAll('.spicy-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.target.classList.add('selected');
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('ramenModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
 
         function setLanguage(lang) {
             currentLang = lang;
