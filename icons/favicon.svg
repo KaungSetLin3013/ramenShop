@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#C41E3A"/>
+<!-- steam -->
+<g fill="none" stroke="#F8F5F0" stroke-width="14" stroke-linecap="round" opacity=".92">
+  <path d="M200 176c-20-24 20-36 0-62"/><path d="M256 176c-20-24 20-36 0-62"/><path d="M312 176c-20-24 20-36 0-62"/>
+</g>
+<!-- bowl -->
+<path d="M98 262C98 392 170 442 256 442C342 442 414 392 414 262Z" fill="#F8F5F0"/>
+<path d="M112 326Q256 384 400 326" fill="none" stroke="#C41E3A" stroke-width="14" stroke-linecap="round"/>
+<ellipse cx="256" cy="262" rx="158" ry="46" fill="#FFFFFF"/>
+<ellipse cx="256" cy="262" rx="138" ry="36" fill="#D4AF37"/>
+<!-- toppings -->
+<ellipse cx="206" cy="264" rx="34" ry="16" fill="#C98A5E"/>
+<ellipse cx="206" cy="264" rx="20" ry="8" fill="none" stroke="#9E6238" stroke-width="4"/>
+<ellipse cx="296" cy="268" rx="25" ry="15" fill="#FFFFFF" stroke="#E9889E" stroke-width="5"/>
+<ellipse cx="296" cy="268" rx="10" ry="6" fill="none" stroke="#E9889E" stroke-width="4"/>
+<g fill="#6FA83A"><circle cx="252" cy="250" r="6"/><circle cx="264" cy="282" r="6"/><circle cx="238" cy="284" r="5"/><circle cx="332" cy="254" r="5"/></g>
+<!-- chopsticks -->
+<g stroke="#E8C068" stroke-width="12" stroke-linecap="round">
+  <path d="M332 244L424 118"/><path d="M360 254L452 130"/>
+</g>
+<g stroke="#C41E3A" stroke-width="12" stroke-linecap="round" opacity=".55">
+  <path d="M416 129L424 118"/><path d="M444 141L452 130"/>
+</g>
+</svg>
